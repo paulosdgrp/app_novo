@@ -1,1 +1,3 @@
-# app-novo
+# app
+
+A new Flutter project.
