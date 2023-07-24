@@ -11,6 +11,7 @@ class AppColors {
   static const White = Color.fromRGBO(255, 255, 255, 1);
   static const Black = Color.fromRGBO(0, 0, 0, 1);
   static const Grey = Color.fromRGBO(166, 160, 160, 1);
+  static const Smoke = Color.fromRGBO(186, 182, 182, 1);
   static const GreyBlue = Color.fromRGBO(38, 50, 56, 1);
   static const UltramarineBlue = Color.fromRGBO(21, 61, 105, 1);
   static const PearlNightBlue = Color.fromRGBO(18, 45, 74, 1);
