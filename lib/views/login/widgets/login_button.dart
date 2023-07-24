@@ -23,7 +23,9 @@ class LoginButton extends StatelessWidget {
               ),
               elevation: MaterialStateProperty.all(0),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
             child: const Text('Entrar',
                 style: TextStyle(
                   color: AppColors.White,

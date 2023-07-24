@@ -1,3 +1,4 @@
+import 'package:app/views/home/home.dart';
 import 'package:app/views/login/login.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(initialRoute: '/', routes: {
       '/': (context) => const Login(),
+      '/home': (context) => const Home(),
     });
   }
 }

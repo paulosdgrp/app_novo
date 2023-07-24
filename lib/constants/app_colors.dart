@@ -16,9 +16,9 @@ class AppColors {
   static const UltramarineBlue = Color.fromRGBO(21, 61, 105, 1);
   static const PearlNightBlue = Color.fromRGBO(18, 45, 74, 1);
 
-  final BackgroundGradient = LinearGradient(
+  static final BackgroundGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [PrimaryDark.withOpacity(0.92), Secondary.withOpacity(0)],
+    colors: [PrimaryDark.withOpacity(0.92), Black.withOpacity(1)],
   );
 }
