@@ -2,7 +2,7 @@ class AppIcons {
   static const String _path = 'assets/icons/';
 
   static String _buildPath(String name, [String format = 'svg']) =>
-      '$_path/$name.$format';
+      '$_path$name.$format';
 
   static String Add = _buildPath('add');
   static String Arrow = _buildPath('arrow');
