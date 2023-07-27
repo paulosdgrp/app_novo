@@ -4,8 +4,8 @@ import 'dart:math' as math;
 import 'package:app/constants/app_colors.dart';
 import 'package:app/views/login/widgets/forgot_password.dart';
 import 'package:app/views/login/widgets/horizontal_or_line.dart';
-import 'package:app/views/login/widgets/login_button.dart';
-import 'package:app/views/login/widgets/login_text_form_field.dart';
+import 'package:app/shared/isensi_button.dart';
+import 'package:app/shared/isensi_text_form_field.dart';
 import 'package:app/views/login/widgets/login_title.dart';
 import 'package:app/views/login/widgets/sso_footer.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ import 'package:flutter_animate/effects/effects.dart';
 import '../../constants/app_images.dart';
 
 class Login extends StatefulWidget {
+  static const routeName = '/login';
   const Login({super.key});
 
   @override
@@ -98,26 +99,31 @@ class _LoginState extends State<Login> {
                           Offset(0, MediaQuery.of(context).size.height * -0.15),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 50, right: 50),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, right: 50),
                           child: Column(children: [
-                            LoginTitle(),
-                            SizedBox(height: 24),
-                            LoginTextFormField('E-mail'),
-                            SizedBox(height: 16),
-                            LoginTextFormField('Senha'),
-                            SizedBox(height: 6),
-                            ForgotPassword(),
-                            SizedBox(height: 16),
-                            LoginButton(),
-                            HorizontalOrLine(
+                            const LoginTitle(),
+                            const SizedBox(height: 24),
+                            const IsensiTextFormField('E-mail'),
+                            const SizedBox(height: 16),
+                            const IsensiTextFormField('Senha'),
+                            const SizedBox(height: 6),
+                            const ForgotPassword(),
+                            const SizedBox(height: 16),
+                            IsensiButton(
+                              'Entrar',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/home');
+                              },
+                            ),
+                            const HorizontalOrLine(
                               label: 'ou continue com',
                               height: 36,
                             ),
-                            SizedBox(height: 4),
-                            SsoFooter(),
-                            SizedBox(height: 16),
-                            Row(
+                            const SizedBox(height: 4),
+                            const SsoFooter(),
+                            const SizedBox(height: 16),
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [

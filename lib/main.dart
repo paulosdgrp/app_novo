@@ -1,3 +1,4 @@
+import 'package:app/views/group/group.dart';
 import 'package:app/views/home/home.dart';
 import 'package:app/views/login/login.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: '/', routes: {
-      '/': (context) => const Login(),
-      '/home': (context) => const Home(),
+    return MaterialApp(initialRoute: Login.routeName, routes: {
+      Login.routeName: (context) => const Login(),
+      Home.routeName: (context) => const Home(),
+      Group.routeName: (context) => const Group(),
     });
   }
 }

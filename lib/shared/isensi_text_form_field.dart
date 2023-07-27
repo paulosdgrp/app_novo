@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/app_colors.dart';
+import '../constants/app_colors.dart';
 
-class LoginTextFormField extends StatelessWidget {
-  const LoginTextFormField(
+class IsensiTextFormField extends StatelessWidget {
+  final EdgeInsetsGeometry padding;
+  final String label;
+  final void Function(String)? onChanged;
+
+  const IsensiTextFormField(
     this.label, {
     super.key,
+    this.onChanged,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
   });
-
-  final String label;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
+      onChanged: onChanged,
       decoration: InputDecoration(
-        labelText: label,
+        hintText: label,
         isDense: true,
         border: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -24,14 +29,19 @@ class LoginTextFormField extends StatelessWidget {
             width: 1,
           ),
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        labelStyle: const TextStyle(
+        contentPadding: padding,
+        hintStyle: const TextStyle(
           color: AppColors.Smoke,
           fontSize: 14,
           fontWeight: FontWeight.w400,
           fontFamily: 'Roboto',
         ),
+      ),
+      style: const TextStyle(
+        color: AppColors.Grey,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        fontFamily: 'Roboto',
       ),
     );
   }

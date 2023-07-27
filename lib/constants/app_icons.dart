@@ -13,7 +13,7 @@ class AppIcons {
   static String Edit = _buildPath('edit');
   static String Facebook = _buildPath('facebook', 'png');
   static String Google = _buildPath('google', 'png');
-  static String Failded = _buildPath('failded');
+  static String Failed = _buildPath('failed');
   static String KebabDots = _buildPath('kebab_dots');
   static String OpenEye = _buildPath('open_eye');
   static String Pending = _buildPath('pending');
