@@ -1,13 +1,13 @@
 import 'package:app/constants/app_icons.dart';
+import 'package:app/shared/isensi_create_button.dart';
 import 'package:app/views/home/home.dart';
 import 'package:app/views/home/models/device_group.dart';
-import 'package:app/shared/isensi_create_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_colors.dart';
 import '../../shared/isensi_button.dart';
-import '../home/widgets/new_group_dialog.dart';
+import '../new_gateway/new_gateway.dart';
 
 class Group extends StatelessWidget {
   const Group({super.key});
@@ -20,6 +20,10 @@ class Group extends StatelessWidget {
         (ModalRoute.of(context)!.settings.arguments as DeviceGroup?) ??
             DeviceGroup(name: 'Grupo 1', location: 'Montagem');
     return Scaffold(
+      appBar: IsensiAppBar(
+        title: '${group.name} - ${group.location}',
+        routeName: Home.routeName,
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -27,37 +31,20 @@ class Group extends StatelessWidget {
           gradient: AppColors.BackgroundGradient,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(36.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 36.0,
+            vertical: 48,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: SvgPicture.asset(AppIcons.ArrowLeft),
-                    onPressed: () {
-                      Navigator.pushNamed(context, Home.routeName);
-                    },
-                  ),
-                  const Spacer(),
-                  Text(
-                    '${group.name} - ${group.location}',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Spacer()
-                ],
+              IsensiCreateButton(
+                'Novo Gateway',
+                onPressed: () {
+                  Navigator.pushNamed(context, NewGateway.routeName);
+                },
               ),
-              const SizedBox(
-                height: 32,
-              ),
-              IsensiCreateButton('Novo Gateway', onPressed: () {}),
               const SizedBox(
                 height: 48,
               ),
@@ -89,6 +76,56 @@ class Group extends StatelessWidget {
       ),
     );
   }
+}
+
+class IsensiAppBar extends StatelessWidget implements PreferredSize {
+  final double height;
+  final String title;
+  final String routeName;
+  const IsensiAppBar({
+    super.key,
+    this.title = '',
+    this.height = 56.0,
+    this.routeName = '',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var showLeading = !routeName.isEmpty;
+    return AppBar(
+      toolbarHeight: height,
+      backgroundColor: AppColors.PrimaryDark.withOpacity(0.92),
+      elevation: 0,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      centerTitle: true,
+      leading: showLeading
+          ? IconButton(
+              icon: SvgPicture.asset(
+                AppIcons.ArrowLeft,
+                fit: BoxFit.cover,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, routeName);
+              },
+            )
+          : null,
+      automaticallyImplyLeading: false,
+    );
+  }
+
+  @override
+  Widget get child => throw UnimplementedError();
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
 }
 
 class Gateway extends StatelessWidget {
@@ -142,6 +179,11 @@ class Gateway extends StatelessWidget {
             Transform.translate(
               offset: const Offset(15, 0),
               child: PopupMenuButton(
+                splashRadius: 1,
+                constraints: const BoxConstraints(
+                  minWidth: 0,
+                  maxWidth: 96,
+                ),
                 color: AppColors.Tertiary,
                 padding: const EdgeInsets.all(0),
                 offset: const Offset(0, 30),
@@ -159,15 +201,16 @@ class Gateway extends StatelessWidget {
                           AppIcons.Edit,
                           height: 12,
                           color: AppColors.White,
+                          fit: BoxFit.scaleDown,
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         const Text(
                           'Editar',
                           style: TextStyle(
                             color: AppColors.White,
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Manrope',
                           ),
@@ -193,15 +236,16 @@ class Gateway extends StatelessWidget {
                           AppIcons.Trash,
                           height: 12,
                           color: AppColors.White,
+                          fit: BoxFit.scaleDown,
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         const Text(
                           'Excluir',
                           style: TextStyle(
                             color: AppColors.White,
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Manrope',
                           ),
@@ -246,47 +290,62 @@ class DeleteDeviceDialog extends StatelessWidget {
               Row(
                 children: [
                   const Spacer(),
-                  IconButton(
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: SvgPicture.asset(AppIcons.Close)),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const Text(
+                'Tem certeza que deseja deletar esse dispositivo?',
+                style: TextStyle(
+                  color: AppColors.UltramarineBlue,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 16,
+                  fontFamily: 'Manrope',
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IsensiButton(
+                      'Sim',
+                      fontSize: 12,
+                      outline: true,
+                      fontWeight: FontWeight.w600,
+                      borderRadius: 12,
+                      width: MediaQuery.of(context).size.width / 3 - 16,
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: SvgPicture.asset(AppIcons.Close))
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                color: AppColors.Tertiary,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      height: 20,
-                      child: IsensiButton(
-                        'Sim',
-                        fontSize: 12,
-                        outline: true,
-                        fontWeight: FontWeight.w600,
-                        borderRadius: 12,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
                     ),
-                    SizedBox(
-                      width: 150,
-                      height: 20,
-                      child: IsensiButton(
-                        'Não',
-                        fontSize: 12,
-                        backgroundColor: AppColors.UltramarineBlue,
-                        fontWeight: FontWeight.w600,
-                        borderRadius: 12,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
+                    const Spacer(),
+                    IsensiButton(
+                      'Não',
+                      fontSize: 12,
+                      backgroundColor: AppColors.UltramarineBlue,
+                      fontWeight: FontWeight.w600,
+                      borderRadius: 12,
+                      width: MediaQuery.of(context).size.width / 3 - 16,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ],
                 ),

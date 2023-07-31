@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
           gradient: AppColors.BackgroundGradient,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(36.0),
+          padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 48),
           child: Column(
             children: [
               const UserHeader(),

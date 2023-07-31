@@ -33,43 +33,61 @@ class HomeGroupsList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.all(12),
               backgroundColor: AppColors.White,
               elevation: 0,
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      device.name,
-                      style: const TextStyle(
-                        color: AppColors.Black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        fontFamily: 'Manrope',
+            child: SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    textBaseline: TextBaseline.alphabetic,
+                    textDirection: TextDirection.ltr,
+                    children: [
+                      Text(
+                        device.name,
+                        style: const TextStyle(
+                          color: AppColors.Black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontFamily: 'Manrope',
+                        ),
                       ),
+                      SizedBox(
+                        height: 16,
+                        child: Text(
+                          device.location,
+                          style: const TextStyle(
+                            color: AppColors.Black,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            fontFamily: 'Manrope',
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const Spacer(),
+                  Transform.translate(
+                    offset: const Offset(10, 0),
+                    child: PopupMenuButton(
+                      splashRadius: 1,
+                      color: AppColors.Tertiary,
+                      padding: const EdgeInsets.all(0),
+                      offset: const Offset(0, 30),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      itemBuilder: (context) => [],
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      device.location,
-                      style: const TextStyle(
-                        color: AppColors.Black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10,
-                        fontFamily: 'Manrope',
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

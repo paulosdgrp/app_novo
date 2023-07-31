@@ -112,6 +112,7 @@ class _LoginState extends State<Login> {
                             const SizedBox(height: 16),
                             IsensiButton(
                               'Entrar',
+                              width: 180,
                               onPressed: () {
                                 Navigator.pushNamed(context, '/home');
                               },
