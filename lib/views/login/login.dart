@@ -1,21 +1,24 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:app/constants/app_colors.dart';
-import 'package:app/views/login/widgets/forgot_password.dart';
-import 'package:app/views/login/widgets/horizontal_or_line.dart';
+import 'package:app/shared/isensi_app_bar.dart';
 import 'package:app/shared/isensi_button.dart';
 import 'package:app/shared/isensi_text_form_field.dart';
+import 'package:app/views/login/widgets/forgot_password.dart';
+import 'package:app/views/login/widgets/horizontal_or_line.dart';
 import 'package:app/views/login/widgets/login_title.dart';
 import 'package:app/views/login/widgets/sso_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/animate.dart';
 import 'package:flutter_animate/effects/effects.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../constants/app_images.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
+
   const Login({super.key});
 
   @override
@@ -26,19 +29,18 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
   }
 
-  route() {
-    // Navigator.pushReplacementNamed(context, '/login');
-  }
-
-  void _navigateToHome() async => Timer(const Duration(seconds: 3), route);
+  final _loginFormKey = GlobalKey<FormBuilderState>();
+  final _showPasswordNotifier = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
     final scaleFactor = MediaQuery.of(context).size.height / 640;
     return Scaffold(
+      appBar: const IsensiAppBar(
+        height: 0,
+      ),
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -104,9 +106,53 @@ class _LoginState extends State<Login> {
                           child: Column(children: [
                             const LoginTitle(),
                             const SizedBox(height: 24),
-                            const IsensiTextFormField('E-mail'),
-                            const SizedBox(height: 16),
-                            const IsensiTextFormField('Senha'),
+                            FormBuilder(
+                              key: _loginFormKey,
+                              autovalidateMode: AutovalidateMode.disabled,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  IsensiFormBuilderTextField(
+                                    context: context,
+                                    name: 'username',
+                                    hintText: 'E-mail',
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(
+                                        errorText: 'Este campo é obrigatório',
+                                      ),
+                                      FormBuilderValidators.email(
+                                        errorText: 'E-mail inválido',
+                                      )
+                                    ]),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  ValueListenableBuilder(
+                                    valueListenable: _showPasswordNotifier,
+                                    builder: (BuildContext context,
+                                            bool showPassword, child) =>
+                                        IsensiFormBuilderTextField(
+                                      context: context,
+                                      name: 'password',
+                                      hintText: 'Senha',
+                                      obscureText: !showPassword,
+                                      showPasswordNotifier:
+                                          _showPasswordNotifier,
+                                      showSuffixIcon: true,
+                                      validator: FormBuilderValidators.compose(
+                                        [
+                                          FormBuilderValidators.required(
+                                            errorText:
+                                                'Este campo é obrigatório',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            // const SizedBox(height: 16),
+                            // const IsensiTextFormField('Senha'),
                             const SizedBox(height: 6),
                             const ForgotPassword(),
                             const SizedBox(height: 16),
@@ -114,7 +160,16 @@ class _LoginState extends State<Login> {
                               'Entrar',
                               width: 180,
                               onPressed: () {
-                                Navigator.pushNamed(context, '/home');
+                                FocusScope.of(context).unfocus();
+                                if (_loginFormKey.currentState
+                                        ?.saveAndValidate() ??
+                                    false) {
+                                  var formValue =
+                                      _loginFormKey.currentState!.value;
+                                  String username = formValue['username'];
+                                  String password = formValue['password'];
+                                  Navigator.pushNamed(context, '/home');
+                                }
                               },
                             ),
                             const HorizontalOrLine(

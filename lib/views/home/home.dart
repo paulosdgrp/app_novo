@@ -7,7 +7,7 @@ import 'package:app/views/home/widgets/user_header.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
-import 'models/device_group.dart';
+import '../../models/device_group.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';

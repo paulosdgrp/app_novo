@@ -17,6 +17,9 @@ dependencies:
   flutter_native_splash: ^2.3.1
   connectivity_plus: ^4.0.1
   easy_stepper: ^0.7.3
+  thingsboard_client: 1.0.6
+  form_builder_validators: 9.0.0
+  flutter_form_builder: 9.1.0
 
 dev_dependencies:
   flutter_test:

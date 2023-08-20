@@ -1,4 +1,5 @@
 import 'package:app/views/group/group.dart';
+import 'package:app/views/new_gateway/widgets/start_configuration.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,8 @@ import 'package:easy_stepper/easy_stepper.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_icons.dart';
+import '../../models/gateway_device.dart';
+import '../../shared/isensi_app_bar.dart';
 import '../../shared/isensi_button.dart';
 
 class NewGateway extends StatefulWidget {
@@ -79,92 +82,7 @@ class _NewGatewayState extends State<NewGateway> {
           gradient: AppColors.BackgroundGradient,
         ),
         child: !startConfiguration
-            ? Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Bem vindo ao assistente de configuração',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        fontFamily: 'Manrope',
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 38,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Text(
-                        'Clique em próximo para continuar e siga o passo a passo para configurar um novo gateway.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Manrope',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final connectivityResult =
-                            await Connectivity().checkConnectivity();
-
-                        if (!mounted) return;
-                        if (connectivityResult != ConnectivityResult.wifi) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => EnableWifiDialog(
-                              onDelete: () {},
-                            ),
-                          );
-
-                          return;
-                        }
-
-                        _startConfiguration();
-                      },
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 4),
-                        elevation: 0,
-                        foregroundColor: Colors.transparent,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            'Próximo',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Manrope',
-                              color: Colors.white,
-                            ),
-                          ),
-                          Transform.translate(
-                            offset: const Offset(0, 1),
-                            child: SvgPicture.asset(
-                              AppIcons.Arrow,
-                              height: 24,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
+            ? StartConfiguration(startConfiguration: _startConfiguration())
             : SizedBox(
                 height: double.infinity,
                 child: Column(
@@ -396,21 +314,7 @@ class _NewGatewayState extends State<NewGateway> {
   }
 }
 
-class GatewayDevice {
-  final String name;
-  final String mac;
-  final String ip;
-  final String version;
-  late bool selected;
 
-  GatewayDevice({
-    required this.name,
-    required this.mac,
-    required this.ip,
-    required this.version,
-    this.selected = false,
-  });
-}
 
 isensiStep(int activeStep, int index, String title) => EasyStep(
       customStep: CircleAvatar(
